@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0B3D66">
+<title>Infant First Aid · Switzerland Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --bg-soft:#F7F9FC; --bg-panel:#EEF4FB;
+  --ink:#0B1F33; --ink-m:#485D75; --ink-l:#8A9CAE;
+  --line:#DCE4ED; --line-soft:#ECF1F6;
+
+  --blue:#0B3D66; --blue-d:#082B4A; --blue-l:#2E86AB; --blue-bg:#E8F1F9;
+  --red:#C0264B; --red-d:#8F1938; --red-bg:#FCE6EB;
+  --amber:#B5811A; --amber-bg:#FDF3DD;
+  --green:#1E7A46; --green-bg:#DEF2E5;
+  --slate:#3D4A5C;
+
+  --r:10px; --rs:8px; --rl:14px;
+  --sh:0 1px 3px rgba(11,31,51,.06),0 1px 2px rgba(11,31,51,.04);
+  --sh-md:0 4px 12px rgba(11,31,51,.08);
+  --sh-lg:0 12px 32px rgba(11,31,51,.14);
+  --hdr:56px; --nav:62px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-soft);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom))}
+
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:100;background:var(--blue);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;min-height:var(--hdr);box-shadow:var(--sh-md)}
+.hdr-l{display:flex;align-items:center;gap:10px;min-width:0}
+.hdr-ico{width:30px;height:30px;background:#fff;color:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex-shrink:0}
+.hdr-t{font-size:14px;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-st{font-size:10px;opacity:.75;font-weight:400;margin-top:1px}
+.hdr-r{display:flex;gap:6px;flex-shrink:0}
+.hdr-btn{background:rgba(255,255,255,.15);color:#fff;border:none;padding:7px 10px;border-radius:var(--rs);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+.hdr-btn:active{background:rgba(255,255,255,.25)}
+.hdr-btn.call{background:var(--red);padding:7px 14px;font-size:12px}
+.hdr-btn.call:active{background:var(--red-d)}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;height:var(--nav);background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.nb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;color:var(--ink-l);font-family:inherit;cursor:pointer;padding:6px 4px;transition:color .15s}
+.nb.on{color:var(--blue)}
+.nb svg{width:20px;height:20px;stroke-width:2}
+.nb-t{font-size:10px;font-weight:600;letter-spacing:.2px;text-align:center;line-height:1.15;max-width:100%;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;padding:0 2px}
+
+/* PAGES */
+.pg{display:none;padding:14px 14px 20px;max-width:700px;margin:0 auto}
+.pg.on{display:block;animation:fi .18s ease}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* PANIC MODE BAR (top of home) */
+.panic{background:linear-gradient(135deg,var(--red) 0%,#A01D3E 100%);color:#fff;border-radius:var(--rl);padding:14px 16px;margin-bottom:14px;box-shadow:var(--sh-md)}
+.panic-t{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;opacity:.85;margin-bottom:4px}
+.panic-q{font-size:16px;font-weight:600;margin-bottom:10px;line-height:1.3}
+.panic-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.panic-btn{background:#fff;color:var(--red-d);border:none;padding:12px;border-radius:var(--rs);font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.panic-btn:active{background:#F5F5F5}
+.panic-btn.wide{grid-column:1/-1}
+
+/* SECTION HEADER */
+.sh{display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px}
+.sh-t{font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.3px}
+.sh-st{font-size:11px;color:var(--ink-m);font-weight:500}
+
+/* SCENARIO GRID */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.scn{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 12px;cursor:pointer;transition:all .15s;text-align:left;font-family:inherit;display:flex;flex-direction:column;gap:6px;min-height:88px}
+.scn:active{transform:scale(.97);border-color:var(--blue-l)}
+.scn-ico{font-size:22px;line-height:1}
+.scn-t{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3}
+.scn-s{font-size:11px;color:var(--ink-m);line-height:1.35}
+.scn.urgent{border-left:3px solid var(--red)}
+.scn.high{border-left:3px solid var(--amber)}
+.scn.med{border-left:3px solid var(--blue-l)}
+
+/* CARD */
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--sh)}
+.card-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card-ic{width:28px;height:28px;border-radius:50%;background:var(--blue-bg);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.card-t{font-size:14px;font-weight:600;color:var(--ink)}
+.card-b{font-size:13px;color:var(--slate);line-height:1.55}
+.card-b p{margin-bottom:8px}
+.card-b p:last-child{margin-bottom:0}
+
+/* CALLOUT */
+.co{border-radius:var(--r);padding:12px 14px;margin:10px 0;font-size:13px;line-height:1.5;border-left:3px solid}
+.co-t{font-weight:700;margin-bottom:5px;font-size:13px;letter-spacing:.2px}
+.co.red{background:var(--red-bg);border-color:var(--red);color:#5C0C24}
+.co.red .co-t{color:var(--red-d)}
+.co.amber{background:var(--amber-bg);border-color:var(--amber);color:#5E440D}
+.co.amber .co-t{color:var(--amber)}
+.co.blue{background:var(--blue-bg);border-color:var(--blue-l);color:var(--blue-d)}
+.co.blue .co-t{color:var(--blue)}
+.co.green{background:var(--green-bg);border-color:var(--green);color:#0E4025}
+.co.green .co-t{color:var(--green)}
+.co ul{margin:6px 0 0 16px;padding:0}
+.co li{margin-bottom:3px}
+
+/* STEPS */
+.steps{list-style:none;counter-reset:s;margin:10px 0}
+.step{counter-increment:s;display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.step:last-child{border-bottom:none}
+.step::before{content:counter(s);background:var(--blue);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.step-c{flex:1;font-size:13px;line-height:1.5;color:var(--slate);padding-top:3px}
+.step-c strong{color:var(--ink);font-weight:600}
+.step-c .sub{font-size:12px;color:var(--ink-m);margin-top:4px}
+.step.red::before{background:var(--red)}
+.step.amber::before{background:var(--amber)}
+
+/* Emergency steps (big) */
+.xsteps{margin:8px 0 14px}
+.xstep{background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:var(--r);padding:14px 14px 14px 48px;margin-bottom:8px;position:relative;font-size:13px;line-height:1.5}
+.xstep::before{content:attr(data-n);position:absolute;left:10px;top:12px;width:28px;height:28px;background:var(--red);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;font-family:'JetBrains Mono',monospace}
+.xstep strong{color:var(--ink);font-weight:700}
+.xstep .hi{background:var(--amber-bg);padding:2px 6px;border-radius:3px;font-weight:600;color:var(--amber)}
+.xstep.amber{border-left-color:var(--amber)}
+.xstep.amber::before{background:var(--amber)}
+.xstep.blue{border-left-color:var(--blue-l)}
+.xstep.blue::before{background:var(--blue-l)}
+.xstep.green{border-left-color:var(--green)}
+.xstep.green::before{background:var(--green)}
+
+/* INLINE COMPARE */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.cmp-c{border-radius:var(--r);padding:12px;font-size:12px;line-height:1.45}
+.cmp-c.good{background:var(--green-bg);border-left:3px solid var(--green);color:#0E4025}
+.cmp-c.bad{background:var(--red-bg);border-left:3px solid var(--red);color:#5C0C24}
+.cmp-h{font-weight:700;font-size:12px;margin-bottom:6px;letter-spacing:.2px}
+.cmp-c ul{margin:0 0 0 14px;padding:0}
+.cmp-c li{margin-bottom:2px}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+.tbl th{text-align:left;background:var(--blue);color:#fff;padding:8px 10px;font-weight:600;font-size:11px;letter-spacing:.3px}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top;line-height:1.45;color:var(--slate)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:var(--bg-soft)}
+.tbl td strong{color:var(--ink)}
+.tbl-wrap{overflow-x:auto;margin:0 -4px;padding:0 4px;border-radius:var(--r);border:1px solid var(--line)}
+
+/* DETAILS/ACCORDION */
+details{background:#fff;border:1px solid var(--line);border-radius:var(--r);margin-bottom:8px;overflow:hidden;box-shadow:var(--sh)}
+details[open]{box-shadow:var(--sh-md)}
+summary{padding:14px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600;color:var(--ink);user-select:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'';border-right:2px solid var(--ink-l);border-bottom:2px solid var(--ink-l);width:8px;height:8px;transform:rotate(45deg);margin-left:auto;transition:transform .2s}
+details[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+.mod-num{background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;letter-spacing:.3px}
+.mod-body{padding:0 14px 14px;font-size:13px;line-height:1.55;color:var(--slate)}
+.mod-body h4{font-size:13px;font-weight:700;color:var(--ink);margin:14px 0 6px}
+.mod-body h5{font-size:12px;font-weight:700;color:var(--blue);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.4px}
+.mod-body p{margin-bottom:8px}
+.mod-body ul{margin:4px 0 8px 18px}
+.mod-body li{margin-bottom:4px}
+.mod-body strong{color:var(--ink);font-weight:600}
+
+/* CHECKLIST */
+.chk{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:4px 14px;margin-bottom:8px;box-shadow:var(--sh)}
+.chk-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line-soft);cursor:pointer}
+.chk-row:last-child{border-bottom:none}
+.chk-box{width:20px;height:20px;border:2px solid var(--line);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:1px;background:#fff}
+.chk-row.done .chk-box{background:var(--green);border-color:var(--green)}
+.chk-row.done .chk-box::after{content:'';width:10px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.chk-c{flex:1;font-size:13px;color:var(--ink);line-height:1.4}
+.chk-row.done .chk-c{color:var(--ink-l);text-decoration:line-through}
+.chk-note{font-size:11px;color:var(--ink-m);margin-top:2px}
+
+/* CONTACT CARD */
+.ctc{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;box-shadow:var(--sh)}
+.ctc-n{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;min-width:50px;text-align:center}
+.ctc.red .ctc-n{color:var(--red)}
+.ctc.amber .ctc-n{color:var(--amber)}
+.ctc.blue .ctc-n{color:var(--blue)}
+.ctc.slate .ctc-n{color:var(--slate)}
+.ctc-c{flex:1;min-width:0}
+.ctc-t{font-size:14px;font-weight:700;color:var(--ink)}
+.ctc-d{font-size:11px;color:var(--ink-m);margin-top:2px;line-height:1.4}
+.ctc-btn{background:var(--blue);color:#fff;border:none;padding:8px 14px;border-radius:var(--rs);font-family:inherit;font-weight:600;font-size:12px;cursor:pointer;flex-shrink:0;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.ctc-btn:active{background:var(--blue-d)}
+.ctc.red .ctc-btn{background:var(--red)}
+.ctc.red .ctc-btn:active{background:var(--red-d)}
+
+/* MODAL */
+.mask{position:fixed;inset:0;background:rgba(11,31,51,.55);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+.mask.on{display:flex;animation:fi .18s ease}
+.sheet{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:700px;max-height:92vh;overflow-y:auto;overscroll-behavior:contain;animation:up .22s cubic-bezier(.2,.9,.3,1)}
+@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-hdr{position:sticky;top:0;background:#fff;padding:14px 16px 10px;border-bottom:1px solid var(--line);z-index:2}
+.sheet-grip{width:40px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 10px}
+.sheet-t{font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+.sheet-ico{font-size:20px}
+.sheet-st{font-size:11px;color:var(--ink-m);margin-top:3px;font-weight:500}
+.sheet-x{position:absolute;right:12px;top:12px;background:var(--bg-soft);border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--ink-m);display:flex;align-items:center;justify-content:center}
+.sheet-b{padding:14px 16px 30px}
+
+/* SEARCH */
+.search{position:relative;margin-bottom:14px}
+.search input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:var(--r);font-size:14px;font-family:inherit;background:#fff;color:var(--ink);outline:none;transition:border-color .15s}
+.search input:focus{border-color:var(--blue-l)}
+.search::before{content:'';position:absolute;left:14px;top:50%;width:16px;height:16px;border:2px solid var(--ink-l);border-radius:50%;transform:translateY(-60%)}
+.search::after{content:'';position:absolute;left:26px;top:25px;width:2px;height:8px;background:var(--ink-l);transform:rotate(-45deg)}
+
+/* REF CARD (big & bold, printable-feeling) */
+.ref{background:#fff;border:2px solid var(--blue);border-radius:var(--rl);padding:16px;margin-bottom:14px;box-shadow:var(--sh-md)}
+.ref-h{font-size:12px;font-weight:800;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;text-align:center}
+.ref-nums{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.ref-n{padding:10px;border-radius:var(--rs);text-align:center;border:1px solid}
+.ref-n.red{border-color:var(--red);background:var(--red-bg)}
+.ref-n.amber{border-color:var(--amber);background:var(--amber-bg)}
+.ref-nn{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:800;line-height:1}
+.ref-nt{font-size:10px;font-weight:700;margin-top:3px;letter-spacing:.3px;text-transform:uppercase}
+.ref-n.red .ref-nn,.ref-n.red .ref-nt{color:var(--red-d)}
+.ref-n.amber .ref-nn,.ref-n.amber .ref-nt{color:var(--amber)}
+.ref-lbl{font-size:11px;font-weight:700;color:var(--ink-m);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px}
+.ref-seq{font-size:12px;color:var(--slate);line-height:1.55}
+.ref-seq b{color:var(--ink)}
+
+/* TECHNIQUE DIAGRAM */
+.diag{background:var(--bg-panel);border-radius:var(--r);padding:14px;margin:10px 0;font-size:12px;color:var(--slate)}
+.diag-t{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px}
+
+/* BUTTONS */
+.btn{background:var(--blue);color:#fff;border:none;padding:12px 18px;border-radius:var(--rs);font-family:inherit;font-weight:600;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn:active{background:var(--blue-d)}
+.btn-g{background:var(--bg-soft);color:var(--ink);border:1px solid var(--line)}
+.btn-g:active{background:var(--line-soft)}
+.btn-full{width:100%;justify-content:center}
+
+/* Tag */
+.tag{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.3px}
+.tag-red{background:var(--red-bg);color:var(--red-d)}
+.tag-amber{background:var(--amber-bg);color:var(--amber)}
+.tag-blue{background:var(--blue-bg);color:var(--blue)}
+.tag-green{background:var(--green-bg);color:var(--green)}
+
+/* QUIZ */
+.quiz{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--sh)}
+.quiz-q{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.4}
+.quiz-opts{display:flex;flex-direction:column;gap:6px}
+.quiz-opt{background:var(--bg-soft);border:1.5px solid var(--line);padding:11px 12px;border-radius:var(--rs);font-family:inherit;font-size:13px;text-align:left;cursor:pointer;color:var(--ink);transition:all .15s}
+.quiz-opt:hover{border-color:var(--blue-l)}
+.quiz-opt.correct{background:var(--green-bg);border-color:var(--green);color:#0E4025;font-weight:600}
+.quiz-opt.wrong{background:var(--red-bg);border-color:var(--red);color:#5C0C24}
+.quiz-fb{margin-top:10px;padding:10px 12px;background:var(--blue-bg);border-radius:var(--rs);font-size:12px;color:var(--blue-d);line-height:1.5;display:none}
+.quiz-fb.on{display:block}
+
+/* TECHNIQUE CARD (visual-ish) */
+.tech{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;margin-bottom:8px;box-shadow:var(--sh)}
+.tech-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.tech-n{background:var(--blue);color:#fff;font-family:'JetBrains Mono',monospace;font-weight:700;padding:3px 8px;border-radius:4px;font-size:11px}
+.tech-t{font-size:13px;font-weight:700;color:var(--ink)}
+.tech-b{font-size:12px;color:var(--slate);line-height:1.5}
+.tech-b b{color:var(--ink)}
+
+/* Hidden helper */
+.hidden{display:none !important}
+.sep{height:1px;background:var(--line);margin:14px 0}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-ico">+</div>
+    <div>
+      <div class="hdr-t">Infant First Aid</div>
+      <div class="hdr-st">Switzerland · 0–12 months</div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <a href="tel:144" class="hdr-btn call">📞 144</a>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
+<div class="pg on" id="pg-home">
+  <div class="panic">
+    <div class="panic-t">Emergency Right Now?</div>
+    <div class="panic-q">What's happening?</div>
+    <div class="panic-btns">
+      <button class="panic-btn" onclick="openScenario('cpr')">🫁 Not breathing</button>
+      <button class="panic-btn" onclick="openScenario('choke')">⚠️ Choking</button>
+      <button class="panic-btn" onclick="openScenario('allergy')">💥 Allergic reaction</button>
+      <button class="panic-btn" onclick="openScenario('seizure')">⚡ Seizure</button>
+      <button class="panic-btn wide" onclick="go('contacts')">📞 Call Emergency Services</button>
+    </div>
+  </div>
+
+  <div class="sh">
+    <div class="sh-t">ALL SCENARIOS</div>
+    <div class="sh-st">Tap for instant protocol</div>
+  </div>
+  <div class="sgrid">
+    <button class="scn urgent" onclick="openScenario('cpr')"><span class="scn-ico">🫁</span><span class="scn-t">Not breathing</span><span class="scn-s">Unresponsive, gasping, or blue</span></button>
+    <button class="scn urgent" onclick="openScenario('choke')"><span class="scn-ico">⚠️</span><span class="scn-t">Choking</span><span class="scn-s">Silent, can't cry, turning blue</span></button>
+    <button class="scn urgent" onclick="openScenario('allergy')"><span class="scn-ico">💥</span><span class="scn-t">Allergic reaction</span><span class="scn-s">After new food · hives + more</span></button>
+    <button class="scn urgent" onclick="openScenario('seizure')"><span class="scn-ico">⚡</span><span class="scn-t">Seizure</span><span class="scn-s">Jerking, stiff, unresponsive</span></button>
+    <button class="scn high" onclick="openScenario('burn')"><span class="scn-ico">🔥</span><span class="scn-t">Burn / scald</span><span class="scn-s">Hot liquid, bath, skin burn</span></button>
+    <button class="scn high" onclick="openScenario('fall')"><span class="scn-ico">🤕</span><span class="scn-t">Fall / head bump</span><span class="scn-s">Fell off bed, table, etc.</span></button>
+    <button class="scn high" onclick="openScenario('fever')"><span class="scn-ico">🌡️</span><span class="scn-t">Fever</span><span class="scn-s">When to worry, when to wait</span></button>
+    <button class="scn high" onclick="openScenario('poison')"><span class="scn-ico">☠️</span><span class="scn-t">Poison / swallowed</span><span class="scn-s">Medicine, cleaner, battery</span></button>
+    <button class="scn med" onclick="openScenario('gag')"><span class="scn-ico">😮</span><span class="scn-t">Gagging (loud)</span><span class="scn-s">Coughing on food · don't panic</span></button>
+    <button class="scn med" onclick="openScenario('breathing')"><span class="scn-ico">💨</span><span class="scn-t">Fast breathing</span><span class="scn-s">Wheeze, grunt, rib pulling</span></button>
+  </div>
+
+  <div class="sh"><div class="sh-t">EMERGENCY CONTACTS</div></div>
+  <a href="tel:144" class="ctc red" style="text-decoration:none;color:inherit">
+    <div class="ctc-n">144</div>
+    <div class="ctc-c">
+      <div class="ctc-t">Ambulance (Sanität)</div>
+      <div class="ctc-d">Life-threatening · not breathing · severe</div>
+    </div>
+    <span class="ctc-btn">Call</span>
+  </a>
+  <a href="tel:145" class="ctc amber" style="text-decoration:none;color:inherit">
+    <div class="ctc-n">145</div>
+    <div class="ctc-c">
+      <div class="ctc-t">Tox Info Suisse (Poison)</div>
+      <div class="ctc-d">24/7 free · physicians · 40% of calls are kids</div>
+    </div>
+    <span class="ctc-btn">Call</span>
+  </a>
+  <div class="ctc slate">
+    <div class="ctc-n" style="font-size:15px">117<br><span style="font-size:12px;color:var(--ink-l)">118</span></div>
+    <div class="ctc-c">
+      <div class="ctc-t">Police / Fire</div>
+      <div class="ctc-d">117 police · 118 fire brigade</div>
+    </div>
+  </div>
+  <div class="ctc blue">
+    <div class="ctc-n">112</div>
+    <div class="ctc-c">
+      <div class="ctc-t">Europe-wide emergency</div>
+      <div class="ctc-d">Works across EU + Switzerland · useful when travelling</div>
+    </div>
+  </div>
+  <a href="tel:0800444333" class="ctc green" style="text-decoration:none;color:inherit">
+    <div class="ctc-n" style="font-size:13px;line-height:1.1">Kids<br>Line</div>
+    <div class="ctc-c">
+      <div class="ctc-t">0800 44 43 33 — CSS Kids Line</div>
+      <div class="ctc-d">24/7 paediatric advice · CSS basic insurance only · other insurers have their own — see First Aid Kit & Call tab</div>
+    </div>
+    <span class="ctc-btn">Call</span>
+  </a>
+
+  <div class="co amber" style="margin-top:14px">
+    <div class="co-t">⚠ Important — read this</div>
+    <p style="margin:6px 0">This guide is <strong>educational reference only, not medical advice</strong>. It is compiled by a parent — <strong>not a medical professional</strong> — and summarises publicly available paediatric resuscitation guidelines from Swiss, US, and European bodies. Guidelines update over time; verify with your own paediatrician.</p>
+    <p style="margin:6px 0"><strong>Infant CPR is a motor skill</strong> that needs hands-on practice with an instructor and an infant manikin. In Switzerland, book the <em>"Notfälle bei Kleinkindern"</em> course (~6 hrs, ~190 CHF) via Samariter Schweiz or Swiss Red Cross. See <a href="#" onclick="go('learn');return false" style="color:var(--amber);font-weight:700;text-decoration:underline">Learn tab</a> for booking links.</p>
+    <p style="margin:6px 0"><strong>Outside Switzerland?</strong> Emergency numbers in this guide (144, 145) are <strong>Swiss-specific</strong>. Use 112 in EU/UK, 911 in US/Canada, or your country's local equivalent. Verify with your paediatrician.</p>
+    <p style="margin:6px 0 0;font-size:11px;color:var(--ink-m)">Used at your own risk. No liability accepted. <a href="#" onclick="showWelcome();return false" style="color:var(--amber);text-decoration:underline">Show full disclaimer</a></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ FIRST-VISIT DISCLAIMER MODAL ═══════════════════════════════════ -->
+<div class="mask" id="welcome-mask">
+  <div class="sheet" style="max-width:540px">
+    <div class="sheet-hdr">
+      <div class="sheet-grip"></div>
+      <div class="sheet-t"><span class="sheet-ico">⚠️</span><span>Important — read before using</span></div>
+      <div class="sheet-st">Please read in full · scroll to continue</div>
+    </div>
+    <div class="sheet-b">
+      <div class="co red"><div class="co-t">In a real emergency right now?</div>Stop reading this. Call <strong>144</strong> (Switzerland), <strong>112</strong> (EU/UK), or <strong>911</strong> (US/Canada). Talk to a dispatcher — they will guide you.</div>
+
+      <div style="font-size:13px;line-height:1.6;color:var(--slate);margin:16px 0">
+        <h4 style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 6px">Not medical advice</h4>
+        <p style="margin-bottom:12px">This is a <strong>free, informal educational reference</strong> compiled by a parent — <strong>not a medical professional, not a doctor, not a nurse, not a paramedic, not a first-aid instructor</strong>. The content summarises publicly available paediatric resuscitation guidelines and Swiss emergency information. It is not a substitute for professional medical advice, diagnosis, or treatment.</p>
+
+        <h4 style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 6px">Reading this is not training</h4>
+        <p style="margin-bottom:12px">Infant CPR, choking response, and other emergency techniques are <strong>physical skills</strong>. You cannot learn them from a screen. Book a hands-on course with a qualified instructor — in Switzerland, the Samariter or Swiss Red Cross "Notfälle bei Kleinkindern" course. Doing so before you need it is the single most useful thing you can do for your child's safety.</p>
+
+        <h4 style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 6px">Information may be out of date</h4>
+        <p style="margin-bottom:12px">Resuscitation guidelines, emergency phone numbers, drug dosages, and product recommendations all change over time. This guide reflects information believed accurate as of May 2026, but no guarantee is made of ongoing accuracy. <strong>Always verify with your own paediatrician and your country's current emergency services.</strong></p>
+
+        <h4 style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 6px">No liability</h4>
+        <p style="margin-bottom:12px">This guide is provided <strong>"as-is" without any warranties, express or implied</strong>. The author makes no representations about completeness, accuracy, reliability, or suitability for any purpose. By continuing, you agree that <strong>you use this guide entirely at your own risk</strong>, and that the author shall not be liable for any direct, indirect, incidental, consequential, or any other damages arising from its use, misuse, or inability to use it — including but not limited to injury, illness, death, financial loss, or any decision made on the basis of its content.</p>
+
+        <h4 style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 6px">Geographic limits</h4>
+        <p style="margin-bottom:12px">Emergency numbers (144, 145) and product names referenced in this guide are <strong>Swiss-specific</strong>. If you are outside Switzerland, the procedures may still be relevant (resuscitation protocols are internationally aligned) but the phone numbers and product names will not work. Look up your country's equivalents.</p>
+
+        <h4 style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 6px">When in doubt — call</h4>
+        <p>If you are unsure whether your child needs emergency care, <strong>err on the side of calling</strong>. Swiss medical advice lines (144, your insurer's 24/7 line) exist exactly for this purpose. They will never criticise you for calling.</p>
+      </div>
+
+      <button class="btn btn-full" onclick="acknowledgeWelcome()" style="margin-top:6px">I have read and understood — continue</button>
+      <p style="font-size:11px;color:var(--ink-l);text-align:center;margin-top:10px;line-height:1.4">By continuing, you acknowledge that you have read this notice and agree to use the guide at your own risk.</p>
+    </div>
+  </div>
+</div>
+
+<noscript>
+  <div style="position:fixed;inset:0;background:#fff;padding:40px 20px;z-index:9999;overflow:auto">
+    <h2 style="color:#0B3D66;font-family:Inter,sans-serif">JavaScript required</h2>
+    <p style="font-family:Inter,sans-serif;line-height:1.5;margin-top:12px">This guide needs JavaScript to function — for interactive scenarios, the search, the checklist, and crucially, the disclaimer notice.</p>
+    <p style="font-family:Inter,sans-serif;line-height:1.5;margin-top:12px"><strong>In an emergency right now?</strong> Call <strong>144</strong> (Switzerland), <strong>112</strong> (EU/UK), or <strong>911</strong> (US/Canada).</p>
+    <p style="font-family:Inter,sans-serif;line-height:1.5;margin-top:12px;font-size:13px;color:#666">Please enable JavaScript and reload, then read the disclaimer notice that appears.</p>
+  </div>
+</noscript>
+
+<!-- ═══════════════════════════════════ LEARN ═══════════════════════════════════ -->
+<div class="pg" id="pg-learn">
+  <div class="co blue">
+    <div class="co-t">📚 Full course — 7 modules</div>
+    Read through the modules in order the first time, then use as reference. Tap any module to expand.
+  </div>
+
+  <div class="search">
+    <input type="text" id="q" placeholder="Search scenarios, symptoms, numbers..." oninput="filterModules()">
+  </div>
+
+  <details id="m-1" class="mod">
+    <summary><span class="mod-num">01</span>Infant CPR (0–12 months)</summary>
+    <div class="mod-body">
+      <p>Used when a baby is <strong>unresponsive and not breathing normally</strong> (or only gasping). Less common than choking, but highest-cost if you don't know it. Follows 2025 AHA/AAP guidelines.</p>
+
+      <div class="co blue">
+        <div class="co-t">Key principle</div>
+        Adult cardiac arrest is a heart problem. Infant cardiac arrest is usually a <strong>breathing</strong> problem — that's why infant CPR keeps rescue breaths (not compression-only like adults).
+      </div>
+
+      <h4>When to start CPR</h4>
+      <ul>
+        <li><strong>Unresponsive</strong> — no reaction when you tap the foot firmly and shout</li>
+        <li><strong>Not breathing</strong>, or only gasping (irregular gasps ≠ normal breathing)</li>
+        <li>You've checked for no more than 10 seconds</li>
+      </ul>
+      <p><strong>If breathing but unresponsive:</strong> recovery position (on side), keep airway open, call 144, stay with them. Do NOT start CPR on a breathing baby.</p>
+
+      <h4>The sequence</h4>
+      <h5>Step 1 · Check & call</h5>
+      <ul>
+        <li>Tap sole of foot firmly + shout their name</li>
+        <li>If someone else is there: have them call 144 immediately</li>
+        <li><strong>If alone:</strong> do 2 minutes of CPR FIRST, then call 144 on speakerphone. In infants, oxygen is the limiting factor.</li>
+      </ul>
+
+      <h5>Step 2 · Open airway</h5>
+      <ul>
+        <li>Firm flat surface — floor beats bed/sofa</li>
+        <li><strong>Gentle head tilt</strong> — neutral or slightly extended. <strong>Don't overextend</strong>. Babies have large heads; tilting too far <em>closes</em> the airway</li>
+        <li>Look in mouth — if you SEE an object, pinky-sweep. Never blind-sweep.</li>
+      </ul>
+
+      <h5>Step 3 · 2 rescue breaths</h5>
+      <ul>
+        <li>Seal your mouth over baby's mouth AND nose (they're small — yours covers both)</li>
+        <li><strong>Small cheek puffs, not lung breaths.</strong> Just enough for chest to gently rise. Full adult breaths will injure infant lungs.</li>
+        <li>Each breath ≈ 1 second. Watch chest rise, let fall before next</li>
+        <li>If chest doesn't rise: reposition head and try once. Still no rise → treat as airway obstruction, skip to compressions</li>
+      </ul>
+
+      <h5>Step 4 · 30 chest compressions</h5>
+      <div class="co amber">
+        <div class="co-t">⚠ Technique changed in 2025</div>
+        The two-finger method is no longer recommended. For a lone rescuer: <strong>heel of one hand</strong>, lower half of sternum, just below nipple line.
+      </div>
+      <div class="tbl-wrap"><table class="tbl">
+        <tbody>
+          <tr><td><strong>Location</strong></td><td>Lower half of sternum, just below imaginary nipple line</td></tr>
+          <tr><td><strong>Depth</strong></td><td>~4 cm (1.5 in) — one-third chest depth</td></tr>
+          <tr><td><strong>Rate</strong></td><td>100–120/min · tempo of "Baby Shark" or "Stayin' Alive"</td></tr>
+          <tr><td><strong>Recoil</strong></td><td>Full recoil between compressions — don't lean</td></tr>
+        </tbody>
+      </table></div>
+
+      <h5>Step 5 · Cycles of 30:2</h5>
+      <ul>
+        <li>Ratio is <strong>30 compressions + 2 breaths</strong>, repeat</li>
+        <li>Don't stop to check breathing / pulse between cycles</li>
+        <li>Keep going until: baby breathes, help takes over, or you can't continue</li>
+        <li>Alone? After 2 min (~5 cycles): pause, call 144 on speakerphone, resume while on call</li>
+      </ul>
+
+      <h4>AED (defibrillator)</h4>
+      <ul>
+        <li>Modern AEDs work on infants. Use paediatric pads if included.</li>
+        <li>Only adult pads available? Use them — one chest, one back. Any shock &gt; no shock.</li>
+        <li>Follow the voice prompts. Resume CPR immediately after any shock.</li>
+      </ul>
+
+      <div class="co red">
+        <div class="co-t">Common mistakes that kill effectiveness</div>
+        <ul>
+          <li>Compressing too shallow (fear of hurting baby — cracked ribs are acceptable; no blood flow isn't)</li>
+          <li>Overextending the head (closes the airway in babies)</li>
+          <li>Blowing too hard (cheek puffs, not lung breaths)</li>
+          <li>Stopping too often to check</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <details id="m-2" class="mod">
+    <summary><span class="mod-num">02</span>Choking</summary>
+    <div class="mod-body">
+      <p>The emergency you're most likely to face — especially once your baby starts solids around 6 months. Small pieces + a developing swallow = real risk. Most choking is resolved quickly if you act correctly.</p>
+
+      <h4>The critical distinction: gagging vs. choking</h4>
+      <div class="cmp">
+        <div class="cmp-c good">
+          <div class="cmp-h">GAGGING (LOUD)</div>
+          <ul>
+            <li>Coughing, spluttering, retching</li>
+            <li>NOISY — you can hear it</li>
+            <li>Red/watery face</li>
+            <li>Tongue pushing forward</li>
+            <li>Baby is actively working</li>
+          </ul>
+          <strong style="display:block;margin-top:6px">✓ Do not intervene. Stay close and watch.</strong>
+        </div>
+        <div class="cmp-c bad">
+          <div class="cmp-h">CHOKING (SILENT)</div>
+          <ul>
+            <li>Silent — no cry, cough, sound</li>
+            <li>Can't breathe or make noise</li>
+            <li>Pale / grey / blue lips</li>
+            <li>Panic in eyes</li>
+            <li>Weak ineffective coughing</li>
+          </ul>
+          <strong style="display:block;margin-top:6px">✗ Back blows + chest thrusts NOW.</strong>
+        </div>
+      </div>
+
+      <div class="co green">
+        <div class="co-t">Gagging is a protective reflex</div>
+        Baby's gag reflex sits further forward on the tongue than yours. You'll see lots of gagging in the first weeks of solids. Don't clap their back, don't pick them up, don't finger-sweep — just watch calmly.
+      </div>
+
+      <h4>Choking sequence (under 1 year)</h4>
+      <div class="co red">
+        <div class="co-t">Do NOT do abdominal thrusts (Heimlich) on an infant</div>
+        2025 AHA guidelines explicitly exclude Heimlich for under-1s — it injures organs in small bodies. Use back blows + chest thrusts only.
+      </div>
+
+      <h5>Step 1 · Shout for help</h5>
+      <ul>
+        <li>Someone else there? Have them call 144 immediately.</li>
+        <li>Alone? Start maneuvers first, call if obstruction doesn't clear.</li>
+      </ul>
+
+      <h5>Step 2 · 5 back blows</h5>
+      <ul>
+        <li>Sit. Baby face-DOWN along your forearm, head LOWER than body</li>
+        <li>Support chest + jaw with hand (fingers clear of throat)</li>
+        <li>Rest forearm on thigh</li>
+        <li>Heel of free hand: <strong>5 firm blows</strong> between shoulder blades — firm, not gentle</li>
+        <li>Check after each — did object come out?</li>
+      </ul>
+
+      <h5>Step 3 · 5 chest thrusts</h5>
+      <ul>
+        <li>Flip baby face-UP along other forearm. Head still lower than body.</li>
+        <li>Heel of one hand, lower sternum (same landmark as CPR)</li>
+        <li><strong>5 sharp thrusts</strong>, ~4 cm deep — faster & sharper than CPR compressions</li>
+        <li>Check mouth. See object? Pinky-sweep. Never blind-sweep.</li>
+      </ul>
+
+      <h5>Step 4 · Repeat</h5>
+      <p>Alternate 5 back blows / 5 chest thrusts until:</p>
+      <ul>
+        <li>Object out → baby coughs/cries/breathes</li>
+        <li>Baby becomes unresponsive → <strong>stop choking protocol, start CPR</strong></li>
+        <li>Help arrives</li>
+      </ul>
+      <p>Alone and not clearing after 1 min? Pause, call 144 on speakerphone, resume while on call. Always see a doctor after a significant choking event — residual swelling or fragments.</p>
+
+      <h4>Choking hazards (up-to-date)</h4>
+      <div class="cmp">
+        <div class="cmp-c bad">
+          <div class="cmp-h">AVOID ENTIRELY (&lt;12 mo)</div>
+          <ul>
+            <li>Whole nuts, popcorn</li>
+            <li>Whole grapes, cherries, cherry tomatoes</li>
+            <li>Hard sweets, marshmallows</li>
+            <li>Raw carrot/apple sticks</li>
+            <li>Chunks of hard cheese</li>
+            <li>Globs of nut butter off a spoon</li>
+            <li>Round slices of Wienerli/sausage</li>
+          </ul>
+        </div>
+        <div class="cmp-c good">
+          <div class="cmp-h">MODIFY BEFORE SERVING</div>
+          <ul>
+            <li>Grapes & tomatoes → QUARTER lengthwise</li>
+            <li>Sausages → strips, not coins</li>
+            <li>Carrot/apple → steam soft or shred</li>
+            <li>Nuts → ground/butter thinned</li>
+            <li>Blueberries → squish until ~10 mo</li>
+            <li>Bread → toast first (doughy = sticks)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">Top safety rules</div>
+        <ul>
+          <li><strong>Round is dangerous.</strong> Round + smooth + sized like a baby airway = coins of grape, whole blueberries. Always quarter lengthwise, never slice into coins.</li>
+          <li><strong>Always supervise.</strong> Upright high chair. No eating in stroller/car seat/lying down.</li>
+          <li><strong>Don't prop a bottle.</strong> Never leave baby alone with one; aspiration risk.</li>
+          <li>Rule of thumb: smaller than a 5-franc coin + cylindrical/round = modify first.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <details id="m-3" class="mod">
+    <summary><span class="mod-num">03</span>Allergic reactions & anaphylaxis</summary>
+    <div class="mod-body">
+      <p>You'll introduce all 8 major allergens (egg, peanut, dairy, wheat, sesame, tree nut, fish, soy) in the first 4–6 weeks of starting solids. Most reactions (if any) are mild — but you need to recognize anaphylaxis <strong>fast</strong> because epinephrine is time-sensitive.</p>
+
+      <h4>Mild reaction (call Kinderärztin, business hours)</h4>
+      <ul>
+        <li>Isolated hives in one area</li>
+        <li>Single episode of vomiting (no other symptoms)</li>
+        <li>Mild swelling of one lip / one eyelid</li>
+        <li>Eczema flare on face after new food</li>
+        <li><strong>Redness only around mouth</strong> is usually NOT allergy — acidic foods + friction from smearing. ASCIA says don't let this alone stop re-offering the food.</li>
+      </ul>
+
+      <div class="co red">
+        <div class="co-t">🚨 ANAPHYLAXIS — call 144</div>
+        <p><strong>Key rule:</strong> mild symptoms in &gt; one body system (skin + gut, skin + breathing) = anaphylaxis. Don't wait for it to worsen.</p>
+        <p><strong>In infants, anaphylaxis is usually hives (94%) + vomiting (83%).</strong> Breathing symptoms less common than in adults (~17%) — don't wait for wheezing.</p>
+        <p><strong>Other danger signs:</strong> sudden lethargy/limpness, wheezing or stridor, tongue/throat swelling, pale or blue-grey skin, collapse.</p>
+        <p>Most reactions begin <strong>5–30 min</strong> after exposure.</p>
+      </div>
+
+      <h4>What to do</h4>
+      <ol class="steps" style="margin:6px 0">
+        <li class="step red"><div class="step-c"><strong>Call 144.</strong> Say "Suspected anaphylaxis in an infant."</div></li>
+        <li class="step red"><div class="step-c">EpiPen Junior in outer thigh (through clothing, 3 sec) if prescribed. Note the time.</div></li>
+        <li class="step red"><div class="step-c">Lay baby on side if vomiting; otherwise flat, legs slightly elevated.</div></li>
+        <li class="step red"><div class="step-c">Stay with them. Be ready to start CPR if unresponsive.</div></li>
+        <li class="step red"><div class="step-c"><strong>No antihistamines as substitute</strong> for epinephrine in a severe reaction — too slow. Antihistamines are for mild reactions only.</div></li>
+        <li class="step red"><div class="step-c"><strong>Don't induce vomiting</strong> — worsens airway compromise.</div></li>
+      </ol>
+
+      <h4>How to introduce allergens safely</h4>
+      <ul>
+        <li>One new allergen at a time, <strong>morning or midday — NOT evening.</strong> Be awake and near help.</li>
+        <li>Small amount first (lick, half-tsp). Tolerated after 15 min? Give full serving.</li>
+        <li>Stay within 30 min of home/car during first exposure.</li>
+        <li>Observe ~2 hours. Most reactions happen in first 30 min, but delays occur.</li>
+        <li><strong>Maintain 2–3×/week after introduction.</strong> Ongoing exposure maintains tolerance. Introducing once then stopping can worsen risk.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details id="m-4" class="mod">
+    <summary><span class="mod-num">04</span>Burns, scalds, and falls</summary>
+    <div class="mod-body">
+      <h4>Burns & scalds</h4>
+      <p>Scalds from hot liquids are the most common household burn in infants — coffee, tea, bathwater. Babies' skin is thinner than adults' → same liquid causes deeper burns faster.</p>
+
+      <h5>Any burn — what to do</h5>
+      <ol class="steps">
+        <li class="step amber"><div class="step-c"><strong>Cool burn under cool (not cold) running water for 20 min.</strong> Single most important step. Effective up to 3 hrs after. NOT ice — damages tissue.</div></li>
+        <li class="step amber"><div class="step-c">Remove clothing/jewellery from area — UNLESS stuck to skin. Don't peel stuck fabric.</div></li>
+        <li class="step amber"><div class="step-c">Cover loosely with <strong>cling film (Frischhaltefolie)</strong> or clean non-fluffy cloth after cooling. Cling film is ideal — sterile-ish, non-stick, medics can see through.</div></li>
+        <li class="step amber"><div class="step-c">No creams, butter, toothpaste, aloe. Just water → cling film.</div></li>
+        <li class="step amber"><div class="step-c">Keep baby warm (wrap rest of body) while cooling the burn — hypothermia is a real risk.</div></li>
+      </ol>
+
+      <div class="co red">
+        <div class="co-t">Call 144 or go to ER for</div>
+        <ul>
+          <li>Burn on face, hands, feet, genitals, over a joint</li>
+          <li>Larger than baby's palm (~1% BSA)</li>
+          <li>Blistered, white, or charred skin (2nd/3rd degree)</li>
+          <li>Chemical or electrical burn</li>
+          <li>Any burn on a &lt;12mo — err on calling at least Kinderärztin/Permanence</li>
+        </ul>
+      </div>
+
+      <h5>Prevention — highest-value changes</h5>
+      <ul>
+        <li><strong>Never hold baby while drinking hot drinks.</strong> Wriggling + grabbing a mug = some of the worst scald cases.</li>
+        <li>Bathwater: <strong>37°C max</strong>. Bath thermometer or elbow test (your hand is less sensitive than baby's skin). Cold first, then add hot.</li>
+        <li>Pot handles turned inward. Don't carry hot through rooms with baby on floor.</li>
+        <li>Microwave-heated bottles heat unevenly — hotspots burn baby's mouth even if bottle feels lukewarm. Use bottle warmer or jug of warm water.</li>
+      </ul>
+
+      <h4>Falls & head bumps</h4>
+      <p>Risk grows as baby develops — rolling (4mo+), sitting (6mo+), crawling (7–9mo). Changing-table fall and sofa roll are most common.</p>
+
+      <div class="co red">
+        <div class="co-t">Call 144 immediately if</div>
+        <ul>
+          <li>Loss of consciousness, even briefly</li>
+          <li>More than one vomit</li>
+          <li>Seizure / convulsion</li>
+          <li>Unequal pupils, or pupils don't respond to light</li>
+          <li>Clear fluid or blood from nose/ear</li>
+          <li>Unusual sleepiness / can't rouse baby</li>
+          <li>Bulging soft spot (fontanelle)</li>
+          <li>Fall from &gt;2× baby's height (~120 cm) — regardless of symptoms</li>
+        </ul>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">Call Kinderärztin (non-urgent) if</div>
+        <ul>
+          <li>Visible bump/bruise but alert and normal behaviour</li>
+          <li>Brief crying that settles, then back to themselves</li>
+          <li>Any concern you can't articulate — parental instinct is valid data</li>
+        </ul>
+      </div>
+
+      <h5>At home after minor bump</h5>
+      <ul>
+        <li>Cold pack wrapped in cloth, 10–15 min. Never ice directly on skin.</li>
+        <li>Observe 24h. Let baby sleep — old "keep awake" advice is outdated — but wake every 3–4 hrs first night to confirm rousable and responsive.</li>
+        <li>Watch for red flags appearing in the hours after.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details id="m-5" class="mod">
+    <summary><span class="mod-num">05</span>Seizures, fever, and illness</summary>
+    <div class="mod-body">
+      <h4>Febrile seizures</h4>
+      <p>Occur in 2–5% of kids 6mo–5yr, triggered by rapidly rising fever. <strong>Terrifying to watch but almost always benign</strong> — single febrile seizure doesn't cause brain damage. Usually 1–3 min.</p>
+
+      <h5>What it looks like</h5>
+      <ul>
+        <li>Sudden stiffening then rhythmic jerking of arms/legs</li>
+        <li>Eyes rolling back or staring</li>
+        <li>Loss of consciousness</li>
+        <li>May lose bladder control</li>
+        <li>Skin pale or slightly blue</li>
+        <li>Afterwards: drowsy/confused 10–30 min</li>
+      </ul>
+
+      <h5>What to do</h5>
+      <ol class="steps">
+        <li class="step"><div class="step-c"><strong>Stay calm. Note the time.</strong> Duration is the single most important piece of info for the doctor.</div></li>
+        <li class="step"><div class="step-c">Lay baby on side on soft surface, clear of hard/sharp objects. Loosen tight clothing.</div></li>
+        <li class="step red"><div class="step-c"><strong>DO NOT:</strong> put anything in their mouth (they won't bite tongue — myth); restrain them; give medication during seizure; cold-bath them.</div></li>
+        <li class="step"><div class="step-c">Watch and wait. Most stop on their own in 1–3 min.</div></li>
+        <li class="step"><div class="step-c">After: keep on side until fully alert. Then call Kinderärztin or go to ER — a first febrile seizure always warrants assessment.</div></li>
+      </ol>
+
+      <div class="co red">
+        <div class="co-t">🚨 Call 144 during a seizure if</div>
+        <ul>
+          <li>Lasts &gt;5 minutes</li>
+          <li>Difficulty breathing, lips turning blue</li>
+          <li>Second seizure right after the first</li>
+          <li>Injured during the seizure</li>
+          <li>Doesn't wake up after it ends</li>
+          <li>First-ever seizure — safest to call 144</li>
+        </ul>
+      </div>
+
+      <h4>Fever</h4>
+      <p>Fever = rectal ≥38.0°C (100.4°F) or armpit ≥37.5°C. Fever itself isn't dangerous — but in very young infants can be the only sign of serious infection.</p>
+
+      <div class="co red">
+        <div class="co-t">Call 144 / Kinderärztin IMMEDIATELY for</div>
+        <ul>
+          <li>Any fever ≥38.0°C in &lt;3 months — no exceptions</li>
+          <li>Fever ≥39.0°C in 3–6 months</li>
+          <li>Fever + extreme drowsiness/limpness</li>
+          <li>Fever + stiff neck, <strong>non-blanching rash</strong> (doesn't fade when pressed with glass — meningitis warning)</li>
+          <li>Dehydration: no wet diaper 6+ hrs, sunken fontanelle, no tears</li>
+          <li>Difficulty breathing, grunting, fast breathing</li>
+          <li>Fever &gt;3 days</li>
+        </ul>
+      </div>
+
+      <h5>At home (older infants, not seriously unwell)</h5>
+      <ul>
+        <li><strong>Paracetamol (Dafalgan Baby suppositories)</strong> — safe from birth. Dose by weight.</li>
+        <li><strong>Ibuprofen (Algifor)</strong> — from 3 months AND &gt;5 kg. Dose by weight. Never combine with paracetamol unless told to.</li>
+        <li><strong>Never give aspirin</strong> — Reye's syndrome risk.</li>
+        <li>Hydration: extra feeds, small frequent offers</li>
+        <li>Dress lightly — no bundling. Room ~18–20°C.</li>
+      </ul>
+
+      <div class="co amber">
+        <div class="co-t">Other illness red flags — trust your instincts</div>
+        <ul>
+          <li>Unusual cry (high-pitched, weak, inconsolable for hours)</li>
+          <li>Extremely floppy / unresponsive</li>
+          <li>Fast, hard breathing with visible rib retraction</li>
+          <li>Persistent vomiting (especially projectile)</li>
+          <li>Blood in vomit, stool, or urine</li>
+          <li>Refuses feeds &gt;6 hrs</li>
+          <li>Significantly fewer wet diapers</li>
+          <li>Non-blanching rash anywhere</li>
+          <li>Your instinct says something's wrong — even without clear symptoms</li>
+        </ul>
+      </div>
+
+      <div class="co blue">
+        <div class="co-t">When to call what</div>
+        <ul>
+          <li><strong>144:</strong> Life-threatening or unsafe to transport yourself</li>
+          <li><strong>Kinderärztin:</strong> Worrying but stable. Most practices have a day/out-of-hours line.</li>
+          <li><strong>Permanence:</strong> Walk-in urgent care. <em>Kinderärztlicher Notfalldienst Zürich</em> at Kinderspital covers evenings/weekends.</li>
+          <li><strong>medi24 (0800 33 66 55):</strong> 24/7 nurse advice line, free from Swiss landlines.</li>
+          <li><strong>CSS Kids Line (0800 44 43 33):</strong> 24/7 paediatric phone advice — but <strong>only if you have CSS basic insurance</strong>. Often resolves the question entirely without needing an in-person visit.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <details id="m-6" class="mod">
+    <summary><span class="mod-num">06</span>Poisoning & Tox Info Suisse</summary>
+    <div class="mod-body">
+      <p>Tox Info Suisse (<strong>145</strong>) is the Swiss national poison info centre — staffed 24/7 by physicians. 40% of their calls involve pre-school children, almost all accidental. Heavily used by parents, and free.</p>
+
+      <div class="co blue">
+        <div class="co-t">145 vs. 144 — how to decide</div>
+        <ul>
+          <li><strong>Call 144 FIRST</strong> if baby is unconscious, can't breathe, seizing, or severely unwell. Don't wait on hold with 145 if baby is deteriorating.</li>
+          <li><strong>Call 145</strong> if you suspect ingestion but baby is alert, breathing normally, otherwise well. Physicians assess and tell you whether to monitor at home, go to ER, or escalate to 144.</li>
+          <li>Most of the time, 145 can reassure you. Keep both numbers saved.</li>
+        </ul>
+      </div>
+
+      <h4>What to do if poisoning suspected</h4>
+      <ol class="steps">
+        <li class="step red"><div class="step-c">Seriously unwell → <strong>call 144</strong>.</div></li>
+        <li class="step"><div class="step-c">Stable → <strong>call 145</strong>. Have ready: what was taken (product or plant name — read the package), how much (estimate), when, baby's weight & age, symptoms so far.</div></li>
+        <li class="step"><div class="step-c"><strong>Take the product with you</strong> if going to ER, or photograph the label (front, back, ingredients).</div></li>
+        <li class="step red"><div class="step-c"><strong>Don't induce vomiting.</strong> Syrup of ipecac is no longer recommended and is dangerous.</div></li>
+        <li class="step red"><div class="step-c"><strong>Don't give milk, water, or anything by mouth</strong> unless Tox Info or 144 specifically says so. Some substances react with liquids.</div></li>
+        <li class="step"><div class="step-c"><strong>Don't wait for symptoms.</strong> Many poisonings have a delay.</div></li>
+      </ol>
+
+      <h4>Top-risk items (worth securing NOW)</h4>
+      <ul>
+        <li><strong>Button/coin batteries (Knopfbatterien)</strong> — can burn through the esophagus in <strong>2 hours</strong>. Found in key fobs, remotes, toys, scales, LED candles. <strong>Suspected ingestion = call 144 immediately</strong>, not 145 — always time-critical ER.</li>
+        <li><strong>Dishwasher tabs, laundry pods</strong> — alkaline, cause severe mouth/esophageal burns. High cupboard or locked.</li>
+        <li><strong>Paracetamol + ibuprofen</strong> (including yours). Overdose → liver failure with minimal early symptoms.</li>
+        <li><strong>Essential oils</strong> — especially eucalyptus, camphor, tea tree, wintergreen. Tiny amounts cause seizures in infants. Store out of reach, never apply undiluted.</li>
+        <li><strong>Drain/oven cleaner</strong> — extreme alkalis, chemical burns.</li>
+        <li><strong>Nicotine (vape liquid)</strong> — fatal in tiny amounts for an infant.</li>
+        <li><strong>Iron supplements</strong> — look like candy. Commonly overlooked.</li>
+      </ul>
+
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Age</th><th>Highest-risk exposure</th></tr></thead>
+        <tbody>
+          <tr><td><strong>0–6 mo</strong></td><td>Accidental medication overdose; adult meds dropped within reach</td></tr>
+          <tr><td><strong>6–12 mo (crawling)</strong></td><td>Cleaning products under sink, dishwasher tabs, coin batteries, essential oils, toxic houseplants (ivy, dieffenbachia, philodendron)</td></tr>
+          <tr><td><strong>12+ mo (walking)</strong></td><td>Grandparents' pill organizers, handbags with meds, alcohol left in glasses, laundry pods</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+
+  <details id="m-7" class="mod">
+    <summary><span class="mod-num">07</span>International travel with an infant</summary>
+    <div class="mod-body">
+      <p>Travelling internationally changes your emergency landscape. Different numbers, different healthcare systems, different languages. The principles below apply to any international trip; specific examples use the US since it's a common destination from Switzerland.</p>
+
+      <h4>On the plane</h4>
+      <ul>
+        <li>Notify cabin crew <strong>immediately</strong> in any emergency — they have a medical kit, defibrillator, and can page any doctor on board. Most long-haul flights have ≥1 medical professional among passengers.</li>
+        <li>Airlines have standing arrangements with ground-based medical advisors (MedAire, STAT-MD) who are called for in-flight emergencies.</li>
+        <li>If your baby is unresponsive or choking, start the maneuver yourself — your 10 seconds matter more than waiting for cabin crew.</li>
+        <li>Emergency landing is a real option if a doctor on board recommends it. Don't hesitate to escalate.</li>
+      </ul>
+
+      <h4>Emergency numbers — common destinations</h4>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Country</th><th>Number</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Switzerland</strong></td><td>144 / 145</td><td>Ambulance / Poison. Work from mobiles even without SIM.</td></tr>
+          <tr><td><strong>EU + UK</strong></td><td>112</td><td>Universal Europe-wide emergency number.</td></tr>
+          <tr><td><strong>USA / Canada</strong></td><td>911</td><td>Universal emergency. US Poison Control: <strong>1-800-222-1222</strong> (24/7, free).</td></tr>
+          <tr><td><strong>Australia</strong></td><td>000</td><td>Or 112 from a mobile.</td></tr>
+          <tr><td><strong>UK</strong></td><td>999</td><td>Or 112. Non-emergency NHS: 111.</td></tr>
+          <tr><td><strong>On a plane</strong></td><td>Cabin crew</td><td>Always faster than any phone number.</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:11px;color:var(--ink-m);margin-top:6px">Verify your destination's number before travelling — these can change. The international SOS number <strong>112</strong> works on most GSM mobile phones globally even without local SIM or signal to your home network.</p>
+
+      <h4>Before any international trip — checklist</h4>
+      <ul>
+        <li>Save destination's emergency + poison numbers in your phone before you fly.</li>
+        <li>Verify roaming on your mobile plan for the destination country.</li>
+        <li>Carry a paper note: baby's full name, date of birth, insurance details, paediatrician contact, any medical issues. You may not be able to unlock your phone.</li>
+        <li><strong>Travel insurance</strong> — verify coverage for your destination, especially the US (some Swiss supplementary insurances explicitly exclude the US due to cost). Carry the card and policy number.</li>
+        <li>Locate the nearest children's hospital to where you'll be staying. In major cities you'll usually find a dedicated paediatric ER.</li>
+        <li>Pack infant paracetamol or local equivalent (acetaminophen in US/Canada), a thermometer, and oral rehydration sachets. Don't assume your preferred brands are easy to find abroad.</li>
+      </ul>
+
+      <h4>Worked example — travelling to the USA</h4>
+      <ul>
+        <li><strong>911</strong> — universal US emergency (ambulance, police, fire).</li>
+        <li><strong>1-800-222-1222</strong> — Poison Control, 24/7, free.</li>
+        <li>For non-emergency care: <strong>"urgent care centers"</strong> are the US equivalent of Swiss Permanences — much faster and cheaper than ERs for non-life-threatening issues (fevers, minor injuries, rashes).</li>
+        <li>Children's hospitals in major US cities have dedicated paediatric ERs. Examples: Children's Hospital of Philadelphia (CHOP), Boston Children's, Texas Children's, Lurie (Chicago), Seattle Children's.</li>
+      </ul>
+
+      <div class="co amber">
+        <div class="co-t">US healthcare — what to expect</div>
+        <p>Unlike Switzerland, the US has no universal healthcare. ERs are legally required to stabilise anyone regardless of insurance, so <strong>do not hesitate in a real emergency</strong>. But expect: significant billing, insurance paperwork afterward, and long non-urgent waits.</p>
+        <p>For non-emergency care, urgent care centers are much faster and cheaper than ERs.</p>
+        <p>Most travel insurances (including Swiss ones with US coverage) reimburse after the fact. Keep all itemised bills and receipts.</p>
+      </div>
+    </div>
+  </details>
+
+  <div class="sh" style="margin-top:24px"><div class="sh-t">BOOK A HANDS-ON COURSE</div></div>
+  <div class="co blue">
+    <div class="co-t">"Notfälle bei Kleinkindern" course</div>
+    <p><strong>~6 hours · ~190 CHF · kibesuisse-accredited</strong></p>
+    <p>Infant + toddler CPR, choking, fever, seizures, burns, poisoning — with hands-on practice on infant manikins. Primarily German; some providers offer English on request.</p>
+    <p><strong>Book before solids start</strong> — the choking risk profile changes once your baby starts eating finger foods. Saturday courses fill 3–4 weeks in advance.</p>
+  </div>
+
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>Provider</th><th>Area</th><th>Web</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Samariter Schweiz</strong></td><td>National directory</td><td>samariter.ch</td></tr>
+      <tr><td>Samariter Zürich Höngg</td><td>Zurich (Höngg)</td><td>samariter-zuerich-hoengg.ch</td></tr>
+      <tr><td>Samariter Zürich Unterstrass</td><td>Zurich Kreis 6</td><td>svuo.ch</td></tr>
+      <tr><td>Samariterverband ZH</td><td>Canton-wide</td><td>samariter-zuerich.ch</td></tr>
+      <tr><td>Samariter Urdorf</td><td>Dietikon/Schlieren</td><td>nothilfekurs-urdorf.ch</td></tr>
+      <tr><td><strong>Swiss Red Cross (SRK)</strong></td><td>All regions</td><td>redcross-edu.ch</td></tr>
+      <tr><td>Notfallhandling.ch</td><td>Zurich — on-site at home</td><td>notfallhandling.ch</td></tr>
+      <tr><td><strong>HealthFirst</strong></td><td>Zurich + Geneva — English</td><td>healthfirst.ch</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="sh" style="margin-top:24px"><div class="sh-t">ABOUT THIS GUIDE</div></div>
+  <div class="card">
+    <div class="card-b">
+      <p><strong>This guide is compiled by a parent, not a medical professional.</strong> The author has no medical, nursing, paramedic, or first-aid-instructor qualifications. The content is a summary of publicly available paediatric resuscitation and emergency-care guidelines from recognised medical bodies — but is not, and is not intended to substitute for, professional medical advice, diagnosis, or treatment.</p>
+
+      <p style="margin-top:10px"><strong>Free, open educational resource.</strong> Source code on GitHub — corrections, improvements, and translations welcome via pull request.</p>
+
+      <p style="margin-top:10px"><strong>Sources used:</strong> 2025 AHA/AAP Guidelines for CPR and Emergency Cardiovascular Care (Pediatric Basic Life Support); ASCIA 2026 infant feeding for food allergy prevention; Tox Info Suisse (toxinfo.ch); Samariter Schweiz and Swiss Red Cross paediatric first aid curricula; Swiss Society of Paediatrics (SGP); University Children's Hospital Zurich.</p>
+
+      <p style="margin-top:10px"><strong>Last reviewed:</strong> May 2026. Guidelines update — verify with your country's current paediatric resuscitation body before relying on protocols.</p>
+
+      <div class="co amber" style="margin-top:14px">
+        <div class="co-t">Disclaimer of liability</div>
+        <p style="margin:4px 0">This guide is provided <strong>"as-is" without warranties of any kind, express or implied</strong>, including but not limited to warranties of merchantability, fitness for a particular purpose, accuracy, or completeness.</p>
+        <p style="margin:6px 0">By using this guide, you agree that <strong>you do so entirely at your own risk</strong>. The author shall not be liable for any direct, indirect, incidental, consequential, special, exemplary, or punitive damages — including but not limited to personal injury, illness, death, or financial loss — arising from your use of, reliance on, or inability to use this guide, even if advised of the possibility of such damages.</p>
+        <p style="margin:6px 0 0"><strong>Always defer to qualified medical professionals</strong> for advice specific to your child, and to your local emergency services in a real emergency.</p>
+      </div>
+
+      <p style="margin-top:14px;text-align:center"><button class="btn btn-g" onclick="showWelcome()" style="font-size:12px;padding:8px 14px">Re-read full disclaimer</button></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ QUIZ ═══════════════════════════════════ -->
+<div class="pg" id="pg-practice">
+  <div class="co blue">
+    <div class="co-t">🧠 Quick self-check</div>
+    Five questions to test the key decision points. The goal isn't a score — it's spotting gaps while your baby is still safe.
+  </div>
+  <div id="quiz-list"></div>
+  <button class="btn btn-full" onclick="resetQuiz()" style="margin-top:14px">↻ Reset quiz</button>
+</div>
+
+<!-- ═══════════════════════════════════ KIT & CONTACTS ═══════════════════════════════════ -->
+<div class="pg" id="pg-contacts">
+  <div class="ref">
+    <div class="ref-h">🇨🇭 Emergency Reference — print & stick on fridge</div>
+    <div class="ref-nums">
+      <div class="ref-n red"><div class="ref-nn">144</div><div class="ref-nt">Ambulance</div></div>
+      <div class="ref-n amber"><div class="ref-nn">145</div><div class="ref-nt">Poison</div></div>
+    </div>
+
+    <div class="ref-lbl">CPR — unresponsive, not breathing</div>
+    <div class="ref-seq">
+      <b>1.</b> Call 144 (or after 2 min if alone)<br>
+      <b>2.</b> Tilt head, lift chin · <b>2 small breaths</b> (cheek puffs)<br>
+      <b>3.</b> <b>30 compressions</b> · heel of one hand · lower sternum · 4 cm deep · 100–120/min<br>
+      <b>4.</b> Repeat 30:2 until help arrives
+    </div>
+
+    <div class="ref-lbl">CHOKING — silent, can't breathe</div>
+    <div class="ref-seq">
+      <b>1.</b> <b>5 back blows</b> — face-down forearm, head lower, heel of hand<br>
+      <b>2.</b> <b>5 chest thrusts</b> — face-up, heel of hand, lower sternum, 4 cm<br>
+      <b>3.</b> Repeat · unresponsive → start CPR<br>
+      <span style="color:var(--red-d);font-weight:700">⚠ NEVER abdominal thrusts &lt;1 yr · NEVER blind finger-sweep</span>
+    </div>
+
+    <div class="ref-lbl">ANAPHYLAXIS — multi-system after new food</div>
+    <div class="ref-seq">
+      Hives + vomiting · swelling + breathing · collapse → <b style="color:var(--red)">CALL 144</b><br>
+      Side if vomiting · stay with baby · EpiPen Jr outer thigh if prescribed
+    </div>
+  </div>
+
+  <button class="btn btn-full btn-g" onclick="window.print()" style="margin-bottom:20px">🖨 Print reference card</button>
+
+  <div class="sh"><div class="sh-t">ALL NUMBERS</div></div>
+  <a href="tel:144" class="ctc red" style="text-decoration:none;color:inherit"><div class="ctc-n">144</div><div class="ctc-c"><div class="ctc-t">Ambulance</div><div class="ctc-d">Life-threatening</div></div><span class="ctc-btn">Call</span></a>
+  <a href="tel:145" class="ctc amber" style="text-decoration:none;color:inherit"><div class="ctc-n">145</div><div class="ctc-c"><div class="ctc-t">Tox Info Suisse</div><div class="ctc-d">Poisoning · stable</div></div><span class="ctc-btn">Call</span></a>
+  <a href="tel:1414" class="ctc blue" style="text-decoration:none;color:inherit"><div class="ctc-n">1414</div><div class="ctc-c"><div class="ctc-t">Rega (Air Rescue)</div><div class="ctc-d">Mountains, remote areas</div></div><span class="ctc-btn">Call</span></a>
+  <a href="tel:112" class="ctc blue" style="text-decoration:none;color:inherit"><div class="ctc-n">112</div><div class="ctc-c"><div class="ctc-t">Europe-wide emergency</div><div class="ctc-d">All EU + CH + UK</div></div><span class="ctc-btn">Call</span></a>
+  <a href="tel:117" class="ctc slate" style="text-decoration:none;color:inherit"><div class="ctc-n">117</div><div class="ctc-c"><div class="ctc-t">Police</div></div><span class="ctc-btn">Call</span></a>
+  <a href="tel:118" class="ctc slate" style="text-decoration:none;color:inherit"><div class="ctc-n">118</div><div class="ctc-c"><div class="ctc-t">Fire brigade</div></div><span class="ctc-btn">Call</span></a>
+  <a href="tel:0800336655" class="ctc blue" style="text-decoration:none;color:inherit"><div class="ctc-n" style="font-size:14px">medi24</div><div class="ctc-c"><div class="ctc-t">0800 33 66 55</div><div class="ctc-d">24/7 nurse advice · free CH landline · generic line, used by multiple insurers</div></div><span class="ctc-btn">Call</span></a>
+
+  <div class="sh" style="margin-top:20px"><div class="sh-t">INSURER 24/7 ADVICE LINES</div><div class="sh-st">free for the right plan</div></div>
+  <div class="co blue">
+    <div class="co-t">Use the line for your insurer</div>
+    Most Swiss health insurers contract a 24/7 telemedicine line that's free for their members. The right number depends on your insurer and basic insurance model. <strong>Check your insurance card or insurer's website</strong> — the numbers below cover the major insurers.
+  </div>
+  <a href="tel:0800100008" class="ctc green" style="text-decoration:none;color:inherit"><div class="ctc-n" style="font-size:13px;line-height:1.1">Hels<br>ana</div><div class="ctc-c"><div class="ctc-t">0800 100 008 — Helsana / Medi24</div><div class="ctc-d">24/7 medical advice · all Helsana basic insurance customers · free</div></div><span class="ctc-btn">Call</span></a>
+  <a href="tel:0800773633" class="ctc green" style="text-decoration:none;color:inherit"><div class="ctc-n" style="font-size:13px;line-height:1.1">Hels<br>ana</div><div class="ctc-c"><div class="ctc-t">0800 773 633 — Helsana PREMED-24</div><div class="ctc-d">For PREMED-24 model only · must call first to keep premium discount</div></div><span class="ctc-btn">Call</span></a>
+  <a href="tel:0800800090" class="ctc green" style="text-decoration:none;color:inherit"><div class="ctc-n" style="font-size:13px;line-height:1.1">Hels<br>ana</div><div class="ctc-c"><div class="ctc-t">0800 800 090 — Helsana BeneFit Telmed</div><div class="ctc-d">For BeneFit PLUS Telmed model only · 15% premium discount</div></div><span class="ctc-btn">Call</span></a>
+  <a href="tel:0800444333" class="ctc green" style="text-decoration:none;color:inherit"><div class="ctc-n" style="font-size:13px;line-height:1.1">Kids<br>Line</div><div class="ctc-c"><div class="ctc-t">0800 44 43 33 — CSS Kids Line</div><div class="ctc-d">24/7 paediatric phone advice · CSS basic insurance customers only</div></div><span class="ctc-btn">Call</span></a>
+  <div class="ctc slate" style="opacity:.85"><div class="ctc-n" style="font-size:11px;line-height:1.1">Other<br>insurers</div><div class="ctc-c"><div class="ctc-t">Sanitas, Swica, KPT, Concordia, Visana...</div><div class="ctc-d">Each has their own line — check insurance card or website. The number is usually free for members on alternative insurance models (Telmed, HMO, etc.).</div></div></div>
+
+  <div class="sh" style="margin-top:20px"><div class="sh-t">FIRST AID KIT CHECKLIST</div><div class="sh-st" id="chk-count"></div></div>
+  <div class="chk" id="kit-list"></div>
+</div>
+
+<!-- ═══════════════════════════════════ BOTTOM NAV ═══════════════════════════════════ -->
+<nav class="bnav">
+  <button class="nb on" id="nb-home" onclick="go('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10"/></svg>
+    <span class="nb-t">Emergency</span>
+  </button>
+  <button class="nb" id="nb-learn" onclick="go('learn')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5V5a2 2 0 0 1 2-2h14v14H6.5A2.5 2.5 0 0 0 4 19.5z"/></svg>
+    <span class="nb-t">Learn</span>
+  </button>
+  <button class="nb" id="nb-practice" onclick="go('practice')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9.663 17h4.673M12 3v1M12 20v1M5.636 5.636l.707.707M17.657 17.657l.707.707M3 12h1M20 12h1M18 12a6 6 0 1 0-9 5.197"/></svg>
+    <span class="nb-t">Practice</span>
+  </button>
+  <button class="nb" id="nb-contacts" onclick="go('contacts')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    <span class="nb-t">First Aid Kit & Call</span>
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════ MODAL SHEET ═══════════════════════════════════ -->
+<div class="mask" id="mask">
+  <div class="sheet">
+    <div class="sheet-hdr">
+      <div class="sheet-grip"></div>
+      <div class="sheet-t"><span class="sheet-ico" id="sh-ico">⚠️</span><span id="sh-t">Title</span></div>
+      <div class="sheet-st" id="sh-st">Subtitle</div>
+      <button class="sheet-x" onclick="closeSheet()">×</button>
+    </div>
+    <div class="sheet-b" id="sh-b"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════ NAVIGATION ═══════════════════════════════════
+function go(name){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pg-'+name).classList.add('on');
+  document.getElementById('nb-'+name).classList.add('on');
+  window.scrollTo(0,0);
+  if(name==='practice') renderQuiz();
+  if(name==='contacts') renderKit();
+}
+
+// ═══════════════════════════════════ SCENARIOS (the "panic mode" modals) ═══════════════════════════════════
+const SCENARIOS = {
+  cpr: {
+    ico:'🫁', title:'CPR — not breathing', sub:'Unresponsive, no normal breathing, or gasping',
+    body: `
+      <div class="co red"><div class="co-t">🚨 Have someone else call 144 NOW. If alone: start CPR, call after 2 min.</div></div>
+
+      <div class="xsteps">
+        <div class="xstep" data-n="1"><strong>Check.</strong> Tap sole of foot firmly, shout baby's name. No response + not breathing (or only gasping) = start CPR.</div>
+        <div class="xstep" data-n="2"><strong>Open airway.</strong> Firm flat surface (floor). <span class="hi">Gentle head tilt — don't overextend.</span> Lift chin with two fingers. See object in mouth? Pinky-sweep — <strong>never blind-sweep</strong>.</div>
+        <div class="xstep" data-n="3"><strong>2 rescue breaths.</strong> Seal your mouth over baby's mouth AND nose. <span class="hi">Small cheek puffs, NOT lung breaths.</span> Chest should gently rise. No rise? Re-tilt head, try once more.</div>
+        <div class="xstep" data-n="4"><strong>30 chest compressions.</strong><br>Heel of ONE hand, lower half of sternum (just below nipple line).<br>Depth: ~4 cm (1.5 in) · Rate: 100–120/min · Tempo of "Baby Shark".<br>Full recoil between each.</div>
+        <div class="xstep" data-n="5"><strong>Repeat 30:2</strong> — 30 compressions + 2 breaths. Don't stop to check pulse. Keep going until: baby breathes, help takes over, or an AED arrives.</div>
+        <div class="xstep amber" data-n="6"><strong>Alone?</strong> After 2 min (~5 cycles): briefly pause, call 144 on speakerphone, resume while on call.</div>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">⚠ 2025 update — technique changed</div>
+        The old two-finger method is no longer recommended. Use <strong>heel of one hand</strong> (solo) or <strong>two-thumb encircling</strong> (two rescuers).
+      </div>
+
+      <div class="co blue">
+        <div class="co-t">AED available?</div>
+        Use it. Pediatric pads if present. Only adult pads? Use them anyway — one chest, one back. Follow voice prompts. Resume CPR immediately after any shock.
+      </div>
+    `
+  },
+  choke: {
+    ico:'⚠️', title:'Choking', sub:'Silent, can\'t cry or cough',
+    body: `
+      <div class="co red"><div class="co-t">🚨 Have someone call 144. If alone: start maneuvers, call if not clearing in 1 min.</div></div>
+
+      <div class="co green"><div class="co-t">First: is baby actually choking?</div>
+        <strong>Coughing / making noise / red face?</strong> That's GAGGING. Let them work it out — do NOT intervene.<br>
+        <strong>Silent / can't cry / turning pale or blue?</strong> That's CHOKING. Start now.
+      </div>
+
+      <div class="xsteps">
+        <div class="xstep" data-n="1"><strong>5 back blows.</strong> Sit. Baby <strong>face-DOWN</strong> along your forearm. Head LOWER than body. Support chest + jaw. Heel of free hand → 5 firm blows between shoulder blades.</div>
+        <div class="xstep" data-n="2"><strong>5 chest thrusts.</strong> Flip baby face-UP along other forearm. Heel of one hand, lower sternum. 5 sharp downward thrusts, ~4 cm deep. Check mouth — see object? Pinky-sweep.</div>
+        <div class="xstep" data-n="3"><strong>Repeat.</strong> Alternate 5 back blows / 5 chest thrusts until object clears OR baby becomes unresponsive.</div>
+        <div class="xstep red" data-n="4"><strong>If unresponsive:</strong> Stop choking protocol → start CPR immediately. Check mouth before each rescue breath.</div>
+        <div class="xstep amber" data-n="5"><strong>Object cleared?</strong> Still see a doctor — residual airway swelling or fragments.</div>
+      </div>
+
+      <div class="co red">
+        <div class="co-t">NEVER in a baby under 1</div>
+        <ul>
+          <li>No Heimlich / abdominal thrusts — causes organ injury in small bodies</li>
+          <li>No blind finger-sweeps — pushes object deeper</li>
+        </ul>
+      </div>
+    `
+  },
+  allergy: {
+    ico:'💥', title:'Allergic reaction', sub:'After a new food or known allergen',
+    body: `
+      <div class="co red">
+        <div class="co-t">🚨 Call 144 IF any of these</div>
+        <ul>
+          <li>Symptoms in <strong>&gt; 1 body system</strong> (e.g. hives + vomiting, skin + breathing)</li>
+          <li>Sudden lethargy, limpness, collapse</li>
+          <li>Wheezing, stridor, tongue/throat swelling</li>
+          <li>Pale, mottled, blue-grey skin</li>
+          <li>Persistent vomiting + hives</li>
+        </ul>
+        In infants, anaphylaxis is usually <strong>hives (94%) + vomiting (83%)</strong>. Don't wait for wheezing.
+      </div>
+
+      <div class="xsteps">
+        <div class="xstep" data-n="1"><strong>Call 144</strong> — say "Suspected anaphylaxis in an infant."</div>
+        <div class="xstep" data-n="2"><strong>EpiPen Junior if prescribed</strong> — outer thigh, through clothing, hold 3 sec. Note the time.</div>
+        <div class="xstep" data-n="3"><strong>Position.</strong> Vomiting → side (recovery). Otherwise → flat on back, legs slightly raised.</div>
+        <div class="xstep" data-n="4"><strong>Stay with baby.</strong> Be ready to start CPR if unresponsive.</div>
+        <div class="xstep red" data-n="5"><strong>DON'T:</strong> give antihistamines instead of epinephrine (too slow). Don't try to induce vomiting.</div>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">Mild reaction — call Kinderärztin instead</div>
+        <ul>
+          <li>Single hive patch in one area</li>
+          <li>One episode of vomiting, no other symptoms</li>
+          <li>Mild swelling of one lip or eyelid</li>
+          <li>Eczema flare after new food</li>
+        </ul>
+        <strong>Redness only around the mouth</strong> is usually NOT allergy — acidic foods + friction cause this. ASCIA says don't stop re-offering on this alone.
+      </div>
+
+      <div class="co blue">
+        <div class="co-t">Reactions begin 5–30 min after exposure</div>
+        Observe for ~2 hours after any new allergen. Don't introduce evenings — morning/midday only.
+      </div>
+    `
+  },
+  seizure: {
+    ico:'⚡', title:'Seizure', sub:'Jerking, stiff, eyes rolling, unresponsive',
+    body: `
+      <div class="co blue">
+        <div class="co-t">Breathe. Febrile seizures are terrifying but usually benign.</div>
+        2–5% of kids 6mo–5yr have one. Single episode doesn't cause brain damage. Usually lasts 1–3 min.
+      </div>
+
+      <div class="xsteps">
+        <div class="xstep" data-n="1"><strong>Note the time.</strong> Duration is the #1 fact the doctor needs.</div>
+        <div class="xstep" data-n="2"><strong>Lay baby on side</strong>, soft surface, clear of hard/sharp objects. Loosen tight clothing.</div>
+        <div class="xstep red" data-n="3"><strong>Do NOT:</strong><br>• Put anything in their mouth (the "bite the tongue" thing is a myth)<br>• Restrain or hold down<br>• Give medication during the seizure<br>• Cold-bath them</div>
+        <div class="xstep" data-n="4"><strong>Wait.</strong> Most stop on their own in 1–3 min. Stay calm and watch.</div>
+        <div class="xstep" data-n="5"><strong>After it ends:</strong> keep on side until fully alert. Then call Kinderärztin or go to ER — first febrile seizure always needs assessment.</div>
+      </div>
+
+      <div class="co red">
+        <div class="co-t">🚨 Call 144 during a seizure if</div>
+        <ul>
+          <li>Lasts &gt;5 minutes</li>
+          <li>Difficulty breathing, lips blue</li>
+          <li>Second seizure right after the first</li>
+          <li>Injured during the seizure</li>
+          <li>Doesn't wake up after</li>
+          <li>First-ever seizure (safest to call)</li>
+        </ul>
+      </div>
+    `
+  },
+  burn: {
+    ico:'🔥', title:'Burn / Scald', sub:'Hot liquid, bath, skin burn',
+    body: `
+      <div class="xsteps">
+        <div class="xstep" data-n="1"><strong>Cool under cool (NOT cold) running water — 20 minutes.</strong> <span class="hi">Single most important step.</span> Effective up to 3 hours after. NEVER ice — it damages tissue.</div>
+        <div class="xstep" data-n="2"><strong>Remove clothing/jewellery</strong> from the area — UNLESS stuck to skin. Don't peel stuck fabric.</div>
+        <div class="xstep" data-n="3"><strong>Cover loosely with cling film</strong> (Frischhaltefolie) or clean non-fluffy cloth <em>after</em> cooling. Cling film is ideal — sterile, non-stick, medics see through.</div>
+        <div class="xstep red" data-n="4"><strong>NO</strong> creams, butter, toothpaste, aloe, ointments, home remedies. Just water → cling film.</div>
+        <div class="xstep" data-n="5"><strong>Keep baby warm</strong> — wrap rest of body (blanket) while continuing to cool the burn. Hypothermia is a real risk.</div>
+      </div>
+
+      <div class="co red">
+        <div class="co-t">🚨 Call 144 / go to ER for</div>
+        <ul>
+          <li>Burn on face, hands, feet, genitals, or over a joint</li>
+          <li>Larger than baby's palm (~1% body surface)</li>
+          <li>Any blistered, white, or charred skin</li>
+          <li>Chemical or electrical burn</li>
+          <li>Any burn on &lt;12mo — call Kinderärztin at minimum</li>
+        </ul>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">Prevention — highest value</div>
+        <ul>
+          <li>Never hold baby while drinking hot coffee/tea</li>
+          <li>Bathwater <strong>37°C max</strong>, cold first then add hot</li>
+          <li>Pot handles turned inward</li>
+          <li>Microwave-heated bottles = uneven hotspots (use bottle warmer instead)</li>
+        </ul>
+      </div>
+    `
+  },
+  fall: {
+    ico:'🤕', title:'Fall / head bump', sub:'Off a bed, changing table, sofa',
+    body: `
+      <div class="co red">
+        <div class="co-t">🚨 Call 144 immediately if</div>
+        <ul>
+          <li>Loss of consciousness, even briefly</li>
+          <li>More than one vomit</li>
+          <li>Seizure or convulsion</li>
+          <li>Unequal pupils, pupils don't respond to light</li>
+          <li>Clear fluid or blood from nose/ear</li>
+          <li>Unusual sleepiness / can't rouse baby</li>
+          <li>Bulging soft spot (fontanelle)</li>
+          <li>Fall from &gt;2× baby's height (~120 cm+) — regardless of symptoms</li>
+        </ul>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">Call Kinderärztin (non-urgent) if</div>
+        <ul>
+          <li>Visible bump/bruise, baby alert and normal</li>
+          <li>Brief cry that settles, back to themselves</li>
+          <li>Any concern you can't articulate — parental instinct counts</li>
+        </ul>
+      </div>
+
+      <div class="xsteps">
+        <div class="xstep blue" data-n="1"><strong>Cold pack</strong> wrapped in cloth, 10–15 min. Never ice directly on skin.</div>
+        <div class="xstep blue" data-n="2"><strong>Observe 24 hours.</strong> Let baby sleep (old "keep awake" advice is outdated) — but wake every 3–4 hrs first night to confirm rousable and responsive.</div>
+        <div class="xstep blue" data-n="3"><strong>Watch for red flags</strong> appearing in the hours after: vomiting, drowsiness, behaviour change, pupil changes.</div>
+      </div>
+    `
+  },
+  fever: {
+    ico:'🌡️', title:'Fever', sub:'Rectal ≥38.0°C or armpit ≥37.5°C',
+    body: `
+      <div class="co red">
+        <div class="co-t">🚨 Call 144 / Kinderärztin IMMEDIATELY for</div>
+        <ul>
+          <li>Any fever ≥38.0°C in a baby <strong>&lt;3 months</strong> — no exceptions</li>
+          <li>Fever ≥39.0°C in 3–6 months</li>
+          <li>Fever + extreme drowsiness, limpness, can't rouse</li>
+          <li>Fever + stiff neck, <strong>non-blanching rash</strong> (doesn't fade when pressed with a glass — meningitis sign)</li>
+          <li>Dehydration: no wet diaper 6+ hrs, sunken fontanelle, no tears</li>
+          <li>Difficulty breathing, fast breathing, grunting</li>
+          <li>Fever &gt;3 days</li>
+        </ul>
+      </div>
+
+      <div class="co blue">
+        <div class="co-t">At home — older infants, not seriously unwell</div>
+        <ul>
+          <li><strong>Paracetamol (Dafalgan Baby suppositories)</strong> — safe from birth. Dose by weight.</li>
+          <li><strong>Ibuprofen (Algifor)</strong> — from 3 mo AND &gt;5 kg. Dose by weight. Don't combine with paracetamol unless told to.</li>
+          <li><strong>NEVER aspirin</strong> — Reye's syndrome risk.</li>
+          <li>Extra hydration — small frequent feeds</li>
+          <li>Dress lightly (no bundling). Room ~18–20°C</li>
+        </ul>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">Other illness red flags — call someone</div>
+        <ul>
+          <li>Unusual cry — high-pitched, weak, inconsolable for hours</li>
+          <li>Floppy / unresponsive</li>
+          <li>Fast, hard breathing with visible rib retraction</li>
+          <li>Persistent or projectile vomiting</li>
+          <li>Blood in vomit, stool, or urine</li>
+          <li>Refuses feeds &gt;6 hrs</li>
+          <li>Non-blanching rash anywhere</li>
+          <li>Your instinct says something's wrong</li>
+        </ul>
+      </div>
+
+      <div class="co blue">
+        <div class="co-t">Which number?</div>
+        <strong>144:</strong> life-threatening · can't safely transport yourself.<br>
+        <strong>Kinderärztin:</strong> worrying but stable.<br>
+        <strong>Permanence / Kinderspital:</strong> walk-in urgent care, evenings/weekends.<br>
+        <strong>medi24 (0800 33 66 55):</strong> 24/7 nurse advice, free from CH landlines.<br>
+        <strong>CSS Kids Line (0800 44 43 33):</strong> 24/7 paediatric advice — CSS basic insurance only.
+      </div>
+    `
+  },
+  poison: {
+    ico:'☠️', title:'Poison / Swallowed something', sub:'Medicine, cleaner, battery, plant',
+    body: `
+      <div class="co red">
+        <div class="co-t">🚨 CALL 144 (not 145) IMMEDIATELY if</div>
+        <ul>
+          <li>Baby is unconscious, having trouble breathing, seizing, or severely unwell</li>
+          <li><strong>Suspected button/coin battery (Knopfbatterie)</strong> — burns through esophagus in 2 hrs. Always ER.</li>
+          <li>Strong chemical (drain/oven cleaner, dishwasher tab) in the mouth</li>
+        </ul>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">Baby stable, alert, breathing normally? Call 145 — Tox Info Suisse</div>
+        24/7 free physicians. Most of the time they reassure and give simple measures.
+      </div>
+
+      <div class="xsteps">
+        <div class="xstep amber" data-n="1"><strong>Have ready:</strong> product name, amount, time of ingestion, baby's weight & age, symptoms so far.</div>
+        <div class="xstep amber" data-n="2"><strong>Take the product with you</strong> to ER, or photograph the label (front, back, ingredients).</div>
+        <div class="xstep red" data-n="3"><strong>DO NOT induce vomiting.</strong> Syrup of ipecac is no longer recommended — dangerous.</div>
+        <div class="xstep red" data-n="4"><strong>DO NOT give milk, water, or anything by mouth</strong> unless 145 or 144 tells you to. Some substances react with liquids.</div>
+        <div class="xstep" data-n="5"><strong>Don't wait for symptoms.</strong> Many poisonings have a delay.</div>
+      </div>
+
+      <div class="co blue">
+        <div class="co-t">Top-risk items — secure NOW if not already</div>
+        <ul>
+          <li><strong>Button batteries</strong> — key fobs, remotes, toys, LED candles, scales</li>
+          <li>Dishwasher tabs, laundry pods — alkaline, severe burns</li>
+          <li>Paracetamol + ibuprofen (yours too) — liver failure with few early symptoms</li>
+          <li>Essential oils — eucalyptus, camphor, tea tree cause seizures in infants</li>
+          <li>Drain/oven cleaner, vape liquid, iron supplements (look like candy)</li>
+        </ul>
+      </div>
+    `
+  },
+  gag: {
+    ico:'😮', title:'Gagging — NOT choking', sub:'Coughing, sputtering, making noise',
+    body: `
+      <div class="co green">
+        <div class="co-t">✓ Gagging is protective. Do nothing.</div>
+        Baby's gag reflex sits <strong>further forward</strong> on the tongue than yours. You'll see LOTS of gagging in the first weeks of solids. It's the body's way of pushing food out. Working as intended.
+      </div>
+
+      <div class="cmp">
+        <div class="cmp-c good">
+          <div class="cmp-h">GAGGING (✓ normal)</div>
+          <ul>
+            <li>Noisy — you can hear it</li>
+            <li>Coughing, spluttering, retching</li>
+            <li>Red/watery face</li>
+            <li>Tongue pushes forward</li>
+            <li>Baby is actively working</li>
+          </ul>
+        </div>
+        <div class="cmp-c bad">
+          <div class="cmp-h">CHOKING (✗ act now)</div>
+          <ul>
+            <li>Silent — no cry, no cough</li>
+            <li>Can't breathe or make noise</li>
+            <li>Pale / grey / blue lips</li>
+            <li>Panic in eyes</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">What NOT to do when baby is gagging</div>
+        <ul>
+          <li>Don't clap their back (interrupts the reflex)</li>
+          <li>Don't pick them up suddenly</li>
+          <li>Don't stick your finger in their mouth</li>
+          <li>Don't offer water mid-gag</li>
+        </ul>
+        Stay calm and close. Your calm face matters — babies pick up on panic.
+      </div>
+
+      <p><strong>If gagging becomes silent choking:</strong> switch immediately to the choking protocol (back blows + chest thrusts).</p>
+    `
+  },
+  breathing: {
+    ico:'💨', title:'Fast / difficult breathing', sub:'Wheezing, grunting, rib retraction',
+    body: `
+      <div class="co red">
+        <div class="co-t">🚨 Call 144 immediately if</div>
+        <ul>
+          <li>Baby is blue around lips or mouth</li>
+          <li>You can see ribs sucking in with each breath (retraction)</li>
+          <li>Grunting with every breath</li>
+          <li>Nasal flaring (nostrils visibly widening each breath)</li>
+          <li>Head bobbing with effort</li>
+          <li>Breathing so hard baby can't feed or cry</li>
+          <li>Unresponsive, very floppy, or turning blue</li>
+        </ul>
+      </div>
+
+      <div class="co amber">
+        <div class="co-t">Call Kinderärztin / Permanence if</div>
+        <ul>
+          <li>Persistent cough + fever + mild breathing effort</li>
+          <li>Wheeze that lasts or recurs</li>
+          <li>RSV-like symptoms: heavy congestion + low feeding</li>
+          <li>Any breathing concern that lasts &gt; a few hours</li>
+        </ul>
+      </div>
+
+      <div class="co blue">
+        <div class="co-t">What counts as "fast"?</div>
+        Normal infant breathing: 30–60 breaths/min. Worrying if sustained &gt;60/min when calm (not just after crying). Count chest rises for 60 sec when baby is asleep or quiet.
+      </div>
+
+      <p><strong>While waiting for help:</strong> keep baby upright (slightly inclined is easier than flat), calm and close. Don't give anything by mouth if they're struggling to breathe.</p>
+    `
+  },
+};
+
+function openScenario(key){
+  const s = SCENARIOS[key];
+  document.getElementById('sh-ico').textContent = s.ico;
+  document.getElementById('sh-t').textContent = s.title;
+  document.getElementById('sh-st').textContent = s.sub;
+  document.getElementById('sh-b').innerHTML = s.body;
+  document.getElementById('mask').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet(){
+  document.getElementById('mask').classList.remove('on');
+  document.body.style.overflow = '';
+}
+document.getElementById('mask').addEventListener('click', function(e){
+  if(e.target === this) closeSheet();
+});
+
+// ═══════════════════════════════════ SEARCH ═══════════════════════════════════
+function filterModules(){
+  const q = document.getElementById('q').value.toLowerCase().trim();
+  document.querySelectorAll('details.mod').forEach(d=>{
+    if(!q){ d.classList.remove('hidden'); d.open = false; return; }
+    const t = d.textContent.toLowerCase();
+    if(t.includes(q)){ d.classList.remove('hidden'); d.open = true; }
+    else { d.classList.add('hidden'); d.open = false; }
+  });
+}
+
+// ═══════════════════════════════════ QUIZ ═══════════════════════════════════
+const QUIZ = [
+  {
+    q: "Your 6-month-old is sitting in the high chair eating. She suddenly starts making loud retching sounds and her face is red. What do you do?",
+    opts: [
+      { t: "Immediately start back blows", ok: false, fb: "That would interrupt her gag reflex, which is working. Retching + noise = gagging, not choking. Intervening can push food deeper." },
+      { t: "Nothing. Stay close and watch calmly.", ok: true, fb: "Correct. Loud coughing and retching = gagging = protective reflex. Don't clap, don't finger-sweep, don't pick up suddenly. Let her work it out." },
+      { t: "Give her water to wash it down", ok: false, fb: "Water mid-gag is a choking risk itself. Let her work it out; don't offer anything until she's resolved." },
+      { t: "Pick her up and flip her upside down", ok: false, fb: "That's both unnecessary and potentially harmful. She's handling it herself; disruption can push food deeper." },
+    ]
+  },
+  {
+    q: "Your baby is 7 months, limp, unresponsive, and you can't see her breathing. You're alone in the apartment. First action?",
+    opts: [
+      { t: "Call 144, then start CPR when they answer", ok: false, fb: "Close, but not quite. In infants, oxygen is usually the limiting factor. Start CPR FIRST; call 144 after 2 minutes of CPR on speakerphone." },
+      { t: "Start 2 rescue breaths and 30 compressions; call 144 after 2 min", ok: true, fb: "Yes. Infant cardiac arrest is usually respiratory — 2 min of breathing/compressions first, then call. This is different from adult CPR." },
+      { t: "Run to a neighbour to get help", ok: false, fb: "Losing time. Start CPR immediately; call 144 on speakerphone after 2 min." },
+      { t: "Give her a cold bath to wake her up", ok: false, fb: "Dangerous and irrelevant — cold water won't restart breathing. Don't attempt novel interventions." },
+    ]
+  },
+  {
+    q: "Ten minutes after her first taste of peanut butter, your baby has hives on her face AND vomits once. Otherwise alert. What do you do?",
+    opts: [
+      { t: "Give her oral antihistamine (Feniallerg)", ok: false, fb: "Two body systems = anaphylaxis. Antihistamines are TOO SLOW for severe reactions. Call 144. Antihistamines are for single-system mild reactions only." },
+      { t: "Watch for 30 min; call if it gets worse", ok: false, fb: "Don't wait. The rule: mild symptoms in &gt;1 body system = treat as anaphylaxis. Hives (skin) + vomiting (gut) = two systems." },
+      { t: "Call 144 — treat as anaphylaxis", ok: true, fb: "Correct. In infants, anaphylaxis is usually hives (94%) + vomiting (83%). Don't wait for wheezing. Call 144, say \"suspected anaphylaxis in an infant\"." },
+      { t: "Offer formula to neutralize the allergen", ok: false, fb: "Won't neutralize anything. Don't give anything by mouth when reaction is progressing. Call 144." },
+    ]
+  },
+  {
+    q: "While you're out, your 9-month-old grabs something off a coffee table and swallows it. You don't see what. He's alert and fine, no distress. Call:",
+    opts: [
+      { t: "144 immediately", ok: false, fb: "144 is for life-threatening / unstable. If he's alert and breathing normally, 145 (Tox Info Suisse) is the right call — unless you suspect a button battery, which is always 144." },
+      { t: "145 — Tox Info Suisse", ok: true, fb: "Correct. Stable baby + suspected ingestion = 145. Free, 24/7, physicians assess per case. Exception: if you suspect a button battery, go straight to 144 — those burn through the esophagus in 2 hours." },
+      { t: "Wait and watch for symptoms", ok: false, fb: "Many poisonings have a delay before symptoms. Don't wait." },
+      { t: "Induce vomiting to get it out", ok: false, fb: "Never. Syrup of ipecac is no longer recommended — it's actively dangerous, and some substances cause worse damage on the way back up." },
+    ]
+  },
+  {
+    q: "You're cooling a scald on your baby's hand under running tap water. How long, and with what temperature?",
+    opts: [
+      { t: "Ice water for 5 minutes", ok: false, fb: "Never ice — it damages tissue further. Cool running water (not cold), 20 minutes." },
+      { t: "Lukewarm water until it stops hurting", ok: false, fb: "Not enough. Cool (not cold), running, for 20 minutes — this matters even if baby complains." },
+      { t: "Cool (not cold) running water, 20 minutes", ok: true, fb: "Correct. 20 minutes is the evidence-based duration. It's effective up to 3 hours after the burn. Then cover with cling film and assess if you need to go to the ER." },
+      { t: "Cover with butter, then bandage", ok: false, fb: "Never. No creams, butter, toothpaste, aloe. Water → cling film only." },
+    ]
+  },
+];
+
+function renderQuiz(){
+  const el = document.getElementById('quiz-list');
+  if(el.children.length > 0 && !el.dataset.reset) return; // already rendered
+  el.dataset.reset = '';
+  el.innerHTML = QUIZ.map((q,i)=>`
+    <div class="quiz">
+      <div class="quiz-q">${i+1}. ${q.q}</div>
+      <div class="quiz-opts">
+        ${q.opts.map((o,j)=>`<button class="quiz-opt" data-q="${i}" data-j="${j}" onclick="answerQuiz(${i},${j})">${o.t}</button>`).join('')}
+      </div>
+      <div class="quiz-fb" id="fb-${i}"></div>
+    </div>
+  `).join('');
+}
+function answerQuiz(qi, oi){
+  const q = QUIZ[qi];
+  const opt = q.opts[oi];
+  document.querySelectorAll(`.quiz-opt[data-q="${qi}"]`).forEach(btn=>{
+    btn.disabled = true;
+    const j = parseInt(btn.dataset.j);
+    if(q.opts[j].ok) btn.classList.add('correct');
+    else if(j === oi) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById('fb-'+qi);
+  fb.textContent = opt.fb;
+  fb.classList.add('on');
+}
+function resetQuiz(){
+  document.getElementById('quiz-list').innerHTML = '';
+  document.getElementById('quiz-list').dataset.reset = '1';
+  renderQuiz();
+}
+
+// ═══════════════════════════════════ KIT CHECKLIST ═══════════════════════════════════
+const KIT = [
+  { t:'Digital rectal thermometer', n:'Apotheke/Migros · NUK, Reer' },
+  { t:'Paracetamol suppositories 80mg (Dafalgan Baby)', n:'Apotheke · dose by weight — ask pharmacist' },
+  { t:'Ibuprofen suspension (Algifor Junior)', n:'Apotheke · only from 3 months AND &gt;5 kg' },
+  { t:'Saline nasal drops + aspirator (NoseFrida)', n:'Apotheke, Migros pharmacy section' },
+  { t:'Oral rehydration sachets (Normolytoral/Oralpädon)', n:'Apotheke' },
+  { t:'Sterile gauze pads + cohesive bandage', n:'Apotheke, Migros, Coop' },
+  { t:'Plasters (Hansaplast Kids)', n:'Everywhere' },
+  { t:'Non-alcoholic antiseptic (Betadine)', n:'Apotheke · water-based, not alcoholic (stings)' },
+  { t:'Cling film (Frischhaltefolie)', n:'Kitchen — for covering burns after cooling' },
+  { t:'Cool pack in freezer', n:'Apotheke, Coop · bag of frozen peas as backup' },
+  { t:'Tweezers (Pinzette) — splinter/tick', n:'Apotheke, Migros' },
+  { t:'Round-tip scissors (Verbandsschere)', n:'Apotheke' },
+  { t:'Disposable gloves (latex-free)', n:'Apotheke, Migros, Coop' },
+  { t:'Small torch / headlamp', n:'For checking mouth/ears · any home store' },
+];
+function renderKit(){
+  const done = JSON.parse(localStorage.getItem('fa_kit')||'[]');
+  const el = document.getElementById('kit-list');
+  el.innerHTML = KIT.map((k,i)=>`
+    <div class="chk-row ${done.includes(i)?'done':''}" onclick="toggleKit(${i})">
+      <div class="chk-box"></div>
+      <div class="chk-c">${k.t}<div class="chk-note">${k.n}</div></div>
+    </div>
+  `).join('');
+  const count = done.length;
+  document.getElementById('chk-count').textContent = `${count} / ${KIT.length}`;
+}
+function toggleKit(i){
+  let done = JSON.parse(localStorage.getItem('fa_kit')||'[]');
+  if(done.includes(i)) done = done.filter(x=>x!==i);
+  else done.push(i);
+  localStorage.setItem('fa_kit', JSON.stringify(done));
+  renderKit();
+}
+
+// ═══════════════════════════════════ INIT ═══════════════════════════════════
+// Close sheet on Escape
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && document.getElementById('mask').classList.contains('on')) closeSheet();
+});
+
+// First-visit disclaimer
+function acknowledgeWelcome(){
+  localStorage.setItem('fa_welcomed', '1');
+  document.getElementById('welcome-mask').classList.remove('on');
+  document.body.style.overflow = '';
+}
+function showWelcome(){
+  document.getElementById('welcome-mask').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  document.querySelector('#welcome-mask .sheet').scrollTop = 0;
+}
+if(!localStorage.getItem('fa_welcomed')){
+  document.getElementById('welcome-mask').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+</script>
+</body>
+</html>
